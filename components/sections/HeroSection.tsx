@@ -53,9 +53,9 @@ export default function HeroSection() {
               Get In Touch
             </a>
             <a
-              href="/assets/Mahmoud_Elbokl_Senior_Flutter_Developer_Resume.pdf"
+              href="https://drive.google.com/uc?export=download&id=1Bb6Xnjfb4CYA7E0z4weLxIsbx2uYcdFS"
               target="_blank"
-              download
+              rel="noopener noreferrer"
               className="btn btn-outline btn-lg"
               onClick={() => logCvDownloaded("hero")}
             >

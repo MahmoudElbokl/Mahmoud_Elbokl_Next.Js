@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`light ${spaceGrotesk.variable} ${plusJakartaSans.variable}`}>
+    <html lang="en" className={`dark ${spaceGrotesk.variable} ${plusJakartaSans.variable}`} suppressHydrationWarning>
       <body>
         <AnalyticsProvider>
           {children}

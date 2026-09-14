@@ -13,40 +13,58 @@ const navItems = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
     const saved = localStorage.getItem("theme") as "dark" | "light" | null;
-    if (saved) {
-      setTheme(saved);
-      if (saved === "dark") {
-        document.documentElement.classList.add("dark");
-        document.documentElement.classList.remove("light");
-      } else {
-        document.documentElement.classList.add("light");
-        document.documentElement.classList.remove("dark");
-      }
+    const initialTheme = saved || "dark";
+    setTheme(initialTheme);
+    if (initialTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
     }
   }, []);
 
   useEffect(() => {
+    let ticking = false;
+    const sectionIds = ["hero", "skills", "experience", "projects", "testimonials", "contact"];
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-      const sections = navItems.map(item => item.href.substring(1));
-      for (const sectionId of sections.reverse()) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 200) {
-            setActiveSection(sectionId);
-            break;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const isScrolled = scrollY > 20;
+          setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+
+          const isAtBottom =
+            window.innerHeight + scrollY >= (document.documentElement.scrollHeight - 60);
+
+          if (isAtBottom) {
+            setActiveSection((prev) => (prev !== "contact" ? "contact" : prev));
+          } else {
+            for (let i = sectionIds.length - 1; i >= 0; i--) {
+              const el = document.getElementById(sectionIds[i]);
+              if (el) {
+                const rect = el.getBoundingClientRect();
+                if (rect.top <= 200) {
+                  setActiveSection((prev) => (prev !== sectionIds[i] ? sectionIds[i] : prev));
+                  break;
+                }
+              }
+            }
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

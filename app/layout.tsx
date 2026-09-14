@@ -5,14 +5,12 @@ import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-heading-font",
   display: "swap",
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-body-font",
   display: "swap",
 });

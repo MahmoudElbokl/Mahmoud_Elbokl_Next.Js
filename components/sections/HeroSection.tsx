@@ -96,6 +96,7 @@ export default function HeroSection() {
                 width={400}
                 height={500}
                 priority
+                sizes="(max-width: 640px) 300px, (max-width: 1024px) 380px, 400px"
                 className="profile-img"
               />
             </div>

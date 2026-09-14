@@ -31,7 +31,7 @@ export default function FooterSection() {
         </div>
 
         <div>
-          <h4 className="footer-section-title">Get In Touch</h4>
+          <h3 className="footer-section-title">Get In Touch</h3>
           <div className="footer-detail">
             <div className="footer-detail-label">Email</div>
             <div className="footer-detail-value"><a href={`mailto:${MAIL}`}>{MAIL}</a></div>

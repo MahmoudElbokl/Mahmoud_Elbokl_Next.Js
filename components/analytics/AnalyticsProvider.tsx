@@ -22,19 +22,39 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    // Defer initial analytics to idle time to avoid competing with LCP/FCP
+    // Defer analytics initialization to user interaction or late idle to protect FCP, LCP, and TBT
+    let initialized = false;
     const initAnalytics = () => {
+      if (initialized) return;
+      initialized = true;
       const isDark = document.documentElement.classList.contains("dark");
       const currentTheme = isDark ? "dark" : "light";
       logSessionStart(currentTheme);
       logPageView();
     };
 
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      window.requestIdleCallback(initAnalytics);
-    } else {
-      setTimeout(initAnalytics, 1200);
-    }
+    const onUserInteraction = () => {
+      initAnalytics();
+      cleanupListeners();
+    };
+
+    const cleanupListeners = () => {
+      window.removeEventListener("scroll", onUserInteraction);
+      window.removeEventListener("click", onUserInteraction);
+      window.removeEventListener("touchstart", onUserInteraction);
+    };
+
+    window.addEventListener("scroll", onUserInteraction, { passive: true, once: true });
+    window.addEventListener("click", onUserInteraction, { passive: true, once: true });
+    window.addEventListener("touchstart", onUserInteraction, { passive: true, once: true });
+
+    const idleTimer = setTimeout(() => {
+      if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+        window.requestIdleCallback(initAnalytics, { timeout: 2000 });
+      } else {
+        initAnalytics();
+      }
+    }, 4500);
 
     // Scroll depth tracking
     const handleScroll = () => {
@@ -77,6 +97,8 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => {
+      clearTimeout(idleTimer);
+      cleanupListeners();
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("beforeunload", handlePageExit);
       observer.disconnect();

@@ -1,12 +1,16 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import Image from "next/image";
 import { projects } from "@/lib/data/projects";
 import type { Project } from "@/lib/data/projects";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import SectionTitle from "@/components/ui/SectionTitle";
-import ProjectModal from "@/components/ui/ProjectModal";
 import { logProjectClicked, logStoreLinkClicked, logExternalLinkClicked } from "@/lib/analytics";
+
+const ProjectModal = dynamic(() => import("@/components/ui/ProjectModal"), {
+  ssr: false,
+});
 
 export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -39,7 +43,8 @@ export default function ProjectsSection() {
                     width={400}
                     height={300}
                     className="project-img"
-                    unoptimized
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
                   />
                   <div className="project-overlay">
                     <span className="btn btn-primary btn-sm">View Case Study</span>

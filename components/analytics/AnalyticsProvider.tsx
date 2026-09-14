@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useRef, useCallback } from "react";
 import {
   logSessionStart, logPageView, logPageExit, logScrollDepth, logSectionViewed,
@@ -22,10 +22,19 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    // Initial events
-    const theme = document.documentElement.getAttribute("data-theme") || "dark";
-    logSessionStart(theme);
-    logPageView();
+    // Defer initial analytics to idle time to avoid competing with LCP/FCP
+    const initAnalytics = () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const currentTheme = isDark ? "dark" : "light";
+      logSessionStart(currentTheme);
+      logPageView();
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      window.requestIdleCallback(initAnalytics);
+    } else {
+      setTimeout(initAnalytics, 1200);
+    }
 
     // Scroll depth tracking
     const handleScroll = () => {

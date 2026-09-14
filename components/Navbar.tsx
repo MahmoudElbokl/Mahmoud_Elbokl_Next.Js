@@ -13,9 +13,23 @@ const navItems = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme") as "dark" | "light" | null;
+    if (saved) {
+      setTheme(saved);
+      if (saved === "dark") {
+        document.documentElement.classList.add("dark");
+        document.documentElement.classList.remove("light");
+      } else {
+        document.documentElement.classList.add("light");
+        document.documentElement.classList.remove("dark");
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,6 +60,7 @@ export default function Navbar() {
       document.documentElement.classList.add("dark");
       document.documentElement.classList.remove("light");
     }
+    localStorage.setItem("theme", nextTheme);
     logThemeToggled(nextTheme);
   }, [theme]);
 

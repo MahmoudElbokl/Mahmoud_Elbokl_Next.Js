@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import ScrollReveal from "@/components/ui/ScrollReveal";
 import { logHireMeClicked, logCvDownloaded, logExternalLinkClicked, logWhatsAppOpened } from "@/lib/analytics";
 
 const bullets = [
@@ -21,7 +20,7 @@ export default function HeroSection() {
     <section id="hero" data-section="hero" className="hero-section">
       <div className="hero-bg-glow" />
       <div className="hero-grid">
-        <ScrollReveal className="hero-content">
+        <div className="hero-content">
           <div className="hero-badge">
             <span className="pulse-dot" />
             Senior Flutter & Mobile Engineer
@@ -85,9 +84,9 @@ export default function HeroSection() {
               </div>
             ))}
           </div>
-        </ScrollReveal>
+        </div>
 
-        <ScrollReveal delay={200} className="hero-media">
+        <div className="hero-media">
           <div className="profile-wrapper">
             <div className="profile-glow" />
             <div className="profile-frame">
@@ -108,7 +107,7 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );

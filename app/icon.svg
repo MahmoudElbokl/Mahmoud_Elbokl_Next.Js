@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4338ca" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="28" y="28" width="456" height="456" rx="112" fill="url(#brandGrad)" />
+
+  <!-- Inner Specular Highlight Border -->
+  <rect x="31" y="31" width="450" height="450" rx="109" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="3.5" />
+
+  <!-- Glyphs M.E in Space Grotesk Bold -->
+  <g filter="url(#dropShadow)" fill="#ffffff">
+    <!-- M -->
+    <g transform="translate(69.52, 356.00) scale(0.2220, -0.2220)">
+      <path d="M66 0V700H311L432 90H450L571 700H816V0H688V603H670L550 0H332L212 603H194V0Z" />
+    </g>
+    <!-- . -->
+    <g transform="translate(265.32, 356.00) scale(0.2220, -0.2220)">
+      <path d="M150 -14Q109 -14 81.5 12.5Q54 39 54 81Q54 123 81.5 149.5Q109 176 150 176Q190 176 217.0 149.5Q244 123 244 81Q244 39 217.0 12.5Q190 -14 150 -14Z" />
+    </g>
+    <!-- E -->
+    <g transform="translate(331.48, 356.00) scale(0.2220, -0.2220)">
+      <path d="M66 0V700H516V580H198V413H488V293H198V120H522V0Z" />
+    </g>
+  </g>
+</svg>
